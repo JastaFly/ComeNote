@@ -20,14 +20,7 @@ $.ajax({
             $('#tool-note-' + i).append('<div class="viev"></div>');
             $('#note-' + i).append('<p class="content">' + json_parse[i][2] + '</p>');
             $('#tool-note-' + i).append('<div class="edit"></div>');
-            console.log(json_parse[i]);
         }
     }
 });
 }
-$(document).ready(function() {
-    $('#div-list').on('click', '.edit', function() {
-        let elem_neib = this.parentNode.nextElementSibling;
-        $(elem_neib).slideToggle(400);
-    });
-});

@@ -92,3 +92,9 @@ header {
 .edit:hover {
     background: url(img/editHov.png) no-repeat;
 }
+.node-fild {
+    width: 1265px;
+    height: 210px;
+    font-size: 16px;
+    margin-top: 7px;
+}
