@@ -25,16 +25,22 @@
     <div class="center-wrap">
     <div class="modal-window">
            <div class="modal-header">
-           <div class="cross" onclick="closer()"></div>
+           <div class="cross" onclick="closer(this)"></div>
            </div>
-        
            <img src="img/tick-circle.png" class="ok-tick"  alt="">
-        
             <p class="ok-text" onclick="tick()">Изменения сохранены!</p>
-        
-          
            </div>
-      
+           <div class="delete-window">
+           <div class="modal-header">
+           <div class="cross" onclick="closer(this)"></div>
+           </div>
+           <p class="kill-title">72 метра</p>
+            <p class="ok-text" onclick="tick()">Удалить?</p>
+            <div class="button-wrap">
+            <span class="delete-button button">Да!</span>
+            <span class="no-delete-button button" onclick="closer(this)">Ниии!</span>
+            </div>
+           </div>
     <div class="main-wrap">
        
         <div class="tool-wrap">
@@ -51,7 +57,7 @@
             <span class="name">72 метра</span>
                 <div class="tool-group">
                <span class="date" >19.12.2019</span>
-               <div class="delite" onclick="delite(this)"></div>
+               <div class="delete" onclick="delite(this)"></div>
                <div class="favorite-on" onclick="edit(this)"></div>
                <div class="ok" onclick="edit(this)"></div>
                <div class="cancel" onclick="cancel(this)"></div>

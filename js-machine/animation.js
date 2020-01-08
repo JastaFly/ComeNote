@@ -21,10 +21,12 @@ $(document).ready(function() {
         $(text).slideToggle(400);
     });
 }); 
-let closer = function() {
-    $('.modal-window').slideToggle(500);
+let closer = function(elem) {
+    let modal_window = elem.parentNode.parentNode;
+    console.log(modal_window);
+    $(modal_window).slideToggle(500);
     let main_wrap = document.getElementsByClassName('main-wrap');
     let header = document.getElementsByTagName('header');
     main_wrap[0].style.filter = 'blur(0px)';
-    header[0].style.filter = 'blur(0px)';
+    header[0].style.filter = 'blur(0px)'; 
 }

@@ -40,6 +40,19 @@ function get_one($link, $commad) {
     print_r($json_result) ;
 }
 function favorite($link, $favorite) {
-    print_r($favorite);
+    $id = $favorite[favorite][id];
+    $value = $favorite[favorite][value];
+    $query = "UPDATE `note` SET `primary` = $value WHERE `note`.`id` = $id";
+    mysqli_query($link, $query);
+    $get = "SELECT `primary` FROM note WHERE id=$id";
+    $result = mysqli_query($link, $get);
+    $done_result = mysqli_fetch_all($result);
+    $json_result = json_encode($done_result);
+    print_r($json_result);
+}
+function delete($link, $data) {
+    $id = $data[delete];
+    $query = "DELETE FROM note WHERE id = $id";
+    mysqli_query($link, $query);
 }
 ?>

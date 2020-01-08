@@ -17,7 +17,7 @@ $.ajax({
             $('#tool-note-' + i).append('<span class="name">' + res[i][1] + '</span>');
             $('#tool-note-' + i).append('<div class="tool-group" id="tool-group-' + i + '"></div>');
             $('#tool-group-' + i).append('<span class="date" >' + res[i][3] + '</span>');
-            $('#tool-group-' + i).append('<div class="delite" title="Уничтожить" onclick="delite(this)"></div>');
+            $('#tool-group-' + i).append('<div class="delete" title="Уничтожить" onclick="delete_note(this)"></div>');
             if (res[i][4] == 1) {
                 $('#tool-group-' + i).append('<div class="favorite-on" title="Самое то"  onclick="favorite(this)"></div>');
                 }
@@ -101,7 +101,7 @@ let cancel = function(elem) {
 let favorite = function(elem) {
     let class_css = elem.classList;
     let parent = elem.parentNode.children;
-    let id = parent[2].innerHTML;
+    let id = parent[3].innerHTML;
     if (class_css[0] == 'favorite-on') {
         data = {favorite : {
             id : id,
@@ -119,10 +119,33 @@ let favorite = function(elem) {
         url: "logic/command-process.php",                               
         type: "POST", 
         data: mod_data,  
-        dataType: "html",
+        dataType: "json",
         success: function(res) { 
-            console.log(res);
+            if (res[0][0] == 0) {
+                elem.classList.remove('favorite-on');
+                elem.classList.add('favorite-off');
+                }
+            else {
+                elem.classList.remove('favorite-off');
+                elem.classList.add('favorite-on');
+            }
         }
     });
     
+}
+let delete_note = function(elem) {
+    let parent = elem.parentNode.children;
+    let id = parent[3].innerHTML;
+    let data = {'delete' : id}
+    console.log(id);
+     let mod_data = JSON.stringify(data);
+    $.ajax({                                   
+    url: "logic/command-process.php",                               
+    type: "POST", 
+    data: mod_data,  
+    dataType: "html",
+    success: function(res) { 
+        console.log(res);
+    }
+});
 }
