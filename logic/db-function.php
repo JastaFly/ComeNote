@@ -17,5 +17,29 @@ function get_nodes($link,$commad) {
     $json_result = json_encode($done_result);
     echo $json_result;
 }
-
+function update_node($link, $data) {
+    date_default_timezone_set("Europe/Moscow");
+    $date_msk = date('Y-m-d');
+    $id = $data[edit][id];
+    $title_no_uferline = strtr($data[edit][new_title], '_', ' ');
+    $text_no_underline = strtr($data[edit][new_text], '_', ' '); 
+    $query = "UPDATE note SET name='$title_no_uferline', description='$text_no_underline', date='$date_msk' WHERE id=$id";
+    mysqli_query($link, $query); 
+    $get = "SELECT * FROM note WHERE id=$id";
+    $result = mysqli_query($link, $get);
+    $done_result = mysqli_fetch_all($result);
+    $json_result = json_encode($done_result);
+    echo $json_result;
+}
+function get_one($link, $commad) {
+    $id = $commad[load_one];
+    $query ="SELECT * FROM note WHERE id=$id";
+    $result = mysqli_query($link, $query);
+    $done_result = mysqli_fetch_all($result);
+    $json_result = json_encode($done_result);
+    print_r($json_result) ;
+}
+function favorite($link, $favorite) {
+    print_r($favorite);
+}
 ?>

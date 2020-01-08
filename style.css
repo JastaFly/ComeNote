@@ -50,6 +50,11 @@ header {
     display: flex;
     justify-content: space-between;
 }
+.tool-group {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+}
 .center-wrap {
     display: flex;
     justify-content: center;
@@ -64,6 +69,7 @@ header {
 .date {
     color: white;
     margin-top: 4px;
+    float: right;
 }
 .content {
     color: white;
@@ -93,8 +99,127 @@ header {
     background: url(img/editHov.png) no-repeat;
 }
 .node-fild {
-    width: 1265px;
+    width: 1250px;
     height: 210px;
     font-size: 16px;
     margin-top: 7px;
+    text-align: justify;
+    padding-left: 10px;
+    padding-right: 10px;
+    max-width: 1250px;
+    min-width: 1250px;
+}
+.ok {
+    background: url(img/tick-mark.png) no-repeat;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+    cursor: pointer;
+    display: none;
+}
+.ok:hover {
+    background: url(img/tick-mark-hov.png) no-repeat;
+}
+.node-title {
+    padding-left: 10px;
+}
+.id-value {
+    display: none;
+}
+.cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    filter: blur(5px);
+    display: none;
+}
+.modal-window {
+    width: 500px;
+    height: 400px;
+    position: fixed;
+    z-index: 1;
+    background-color: #8C2A8C;
+    border-radius: 20px;
+    box-shadow: 0.7em 0.7em 10px rgba(0,0,0,0.5);
+    display: none;
+}
+.modal-header {
+    width: 100%;
+    background-color: #09b399;
+    height: 40px;
+    border-radius: 20px 20px 0px 0px;
+    padding-top: 20px;
+}
+.cross {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: url(img/delete.png) no-repeat;
+    margin-left: 460px;
+    cursor: pointer;
+}
+.cross:hover {
+     background: url(img/delete-hov.png) no-repeat;
+}
+.ok-text {
+    text-align: center;
+    font-size: 28px;
+    color: white;
+    margin-top: 10px;
+} 
+.ok-tick {
+   display:block;
+    margin:auto;
+    margin-top: 40px;
+}
+.tick {
+    margin-top: -150px;
+    margin-left: 200px;
+}
+.cancel {
+    background: url(img/delete-mark.png) no-repeat;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+    cursor: pointer;
+    display: none;
+}
+.cancel:hover {
+    background: url(img/delete-mark-hov.png) no-repeat;
+}
+.favorite-on {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 15px;
+    background: url(img/star.png) no-repeat;
+    cursor: pointer;
+}
+.favorite-on:hover {
+    background: url(img/star-hov.png) no-repeat;
+}
+.favorite-off {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 15px;
+    background: url(img/star-hov.png) no-repeat;
+    cursor: pointer;
+}
+.favorite-off:hover {
+    background: url(img/star.png) no-repeat;
+}
+.delite {
+    background: url(img/delete-mark.png) no-repeat;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+    cursor: pointer;
+}
+.delite:hover {
+    background: url(img/delete-mark-hov.png) no-repeat;
 }

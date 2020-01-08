@@ -13,6 +13,7 @@
     ?>
 </head>
     <body>
+    <div class="cover"></div>
     <header> 
       <a href="index.php">
        <div class="logo-group">
@@ -22,7 +23,20 @@
         </a>
    </header>
     <div class="center-wrap">
+    <div class="modal-window">
+           <div class="modal-header">
+           <div class="cross" onclick="closer()"></div>
+           </div>
+        
+           <img src="img/tick-circle.png" class="ok-tick"  alt="">
+        
+            <p class="ok-text" onclick="tick()">Изменения сохранены!</p>
+        
+          
+           </div>
+      
     <div class="main-wrap">
+       
         <div class="tool-wrap">
             <div class="searh">
                 <form action="">
@@ -35,9 +49,15 @@
         <div class="note">
            <div class="tool-note">
             <span class="name">72 метра</span>
+                <div class="tool-group">
                <span class="date" >19.12.2019</span>
+               <div class="delite" onclick="delite(this)"></div>
+               <div class="favorite-on" onclick="edit(this)"></div>
+               <div class="ok" onclick="edit(this)"></div>
+               <div class="cancel" onclick="cancel(this)"></div>
                <div class="viev"></div>
                <div class="edit"></div>
+            </div>
             </div>
             <p class="content"  >
                 С другой стороны укрепление и развитие структуры влечет за собой процесс внедрения и модернизации соответствующий условий активизации. Разнообразный и богатый опыт реализация намеченных плановых заданий в значительной степени обуславливает создание систем массового участия. С другой стороны консультация с широким активом представляет собой интересный эксперимент проверки новых предложений. Таким образом укрепление и развитие структуры в значительной степени обуславливает создание систем массового участия. Задача организации, в особенности же укрепление и развитие структуры требуют от нас анализа новых предложений. Задача организации, в особенности же сложившаяся структура организации играет важную роль в формировании соответствующий условий активизации.
