@@ -27,6 +27,27 @@ let closer = function(elem) {
     $(modal_window).slideToggle(500);
     let main_wrap = document.getElementsByClassName('main-wrap');
     let header = document.getElementsByTagName('header');
+    let cover = document.getElementsByClassName('cover');
+    $(cover[0]).slideToggle(400);
     main_wrap[0].style.filter = 'blur(0px)';
     header[0].style.filter = 'blur(0px)'; 
+}
+let kill_window = function(elem) {
+    let parent = elem.parentNode.children;
+    let main_parent = elem.parentNode.parentNode.children;
+    let note_id = elem.parentNode.parentNode.parentNode.getAttribute('id');
+    localStorage.setItem('note_id', note_id);
+    let id = parent[3].innerHTML;
+    let title_value = main_parent[0].innerHTML;
+    localStorage.setItem('kill_id', id);
+    let title = document.getElementsByClassName('kill-title');
+    title[0].innerHTML = title_value;
+    let windiw = document.getElementsByClassName('kill-window');
+    $(windiw[0]).slideToggle(400);
+    let cover = document.getElementsByClassName('cover');
+    $(cover[0]).slideToggle(400);
+    let header = document.getElementsByTagName('header');
+    header[0].style.filter = 'blur(3px)';
+    let main_wrap = document.getElementsByClassName('main-wrap');
+    main_wrap[0].style.filter = 'blur(3px)';
 }

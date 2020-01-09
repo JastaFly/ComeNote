@@ -50,8 +50,9 @@ function favorite($link, $favorite) {
     $json_result = json_encode($done_result);
     print_r($json_result);
 }
-function delete($link, $data) {
+function kill($link, $data) {
     $id = $data[delete];
+    echo $id;
     $query = "DELETE FROM note WHERE id = $id";
     mysqli_query($link, $query);
 }

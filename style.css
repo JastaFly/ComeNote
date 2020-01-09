@@ -108,6 +108,8 @@ header {
     padding-right: 10px;
     max-width: 1250px;
     min-width: 1250px;
+    font-family: 'Exo 2', sans-serif;
+    border-radius: 10px;
 }
 .ok {
     background: url(img/tick-mark.png) no-repeat;
@@ -123,6 +125,9 @@ header {
 }
 .node-title {
     padding-left: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    margin-right: 5px;
 }
 .id-value {
     display: none;
@@ -133,6 +138,7 @@ header {
     height: 100%;
     filter: blur(5px);
     display: none;
+    z-index: 1;
 }
 .modal-window {
     width: 500px;
@@ -146,7 +152,7 @@ header {
 }
 .modal-header {
     width: 100%;
-    background-color: #09b399;
+    background-color: #7B0DFF;
     height: 40px;
     border-radius: 20px 20px 0px 0px;
     padding-top: 20px;
@@ -223,7 +229,7 @@ header {
 .delete:hover {
     background: url(img/delete-mark-hov.png) no-repeat;
 }
-.delete-window {
+.kill-window {
     width: 500px;
     height: 320px;
     position: fixed;
@@ -231,6 +237,7 @@ header {
     background-color: #8C2A8C;
     border-radius: 20px;
     box-shadow: 0.7em 0.7em 10px rgba(0,0,0,0.5);
+    display: none;
 }
 .button-wrap {
     display: flex;

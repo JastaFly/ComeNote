@@ -14,7 +14,7 @@ if (!empty($_POST)) {
           break;
     case "favorite" : favorite($link, $dec);
           break;
-    case "delete" : delete($link, $dec);
+    case "delete" : kill($link, $dec);
           break;
     } 
   

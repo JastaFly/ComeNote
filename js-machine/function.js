@@ -17,7 +17,7 @@ $.ajax({
             $('#tool-note-' + i).append('<span class="name">' + res[i][1] + '</span>');
             $('#tool-note-' + i).append('<div class="tool-group" id="tool-group-' + i + '"></div>');
             $('#tool-group-' + i).append('<span class="date" >' + res[i][3] + '</span>');
-            $('#tool-group-' + i).append('<div class="delete" title="Уничтожить" onclick="delete_note(this)"></div>');
+            $('#tool-group-' + i).append('<div class="delete" title="Уничтожить" onclick="kill_window(this)"></div>');
             if (res[i][4] == 1) {
                 $('#tool-group-' + i).append('<div class="favorite-on" title="Самое то"  onclick="favorite(this)"></div>');
                 }
@@ -133,19 +133,27 @@ let favorite = function(elem) {
     });
     
 }
-let delete_note = function(elem) {
-    let parent = elem.parentNode.children;
-    let id = parent[3].innerHTML;
+let kill_note = function() {
+    let id = localStorage.getItem('kill_id');
     let data = {'delete' : id}
-    console.log(id);
      let mod_data = JSON.stringify(data);
     $.ajax({                                   
     url: "logic/command-process.php",                               
     type: "POST", 
     data: mod_data,  
     dataType: "html",
-    success: function(res) { 
-        console.log(res);
+    success: function(res) {
+        let windiw = document.getElementsByClassName('kill-window');
+        $(windiw[0]).slideToggle(400);
+        let cover = document.getElementsByClassName('cover');
+        $(cover[0]).slideToggle(400);
+        let header = document.getElementsByTagName('header');
+        header[0].style.filter = 'blur(0px)';
+        let main_wrap = document.getElementsByClassName('main-wrap');
+        main_wrap[0].style.filter = 'blur(0px)';
+        let note_id = localStorage.getItem('note_id');
+        let note = document.getElementById(note_id);
+        $(note).remove();
     }
 });
 }
