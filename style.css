@@ -31,11 +31,44 @@ header {
 }
 .tool-wrap {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 .searh {
     background-color: #400040;
-    height: 30px;
+    height: 42px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    border-radius: 10px;
+}
+.search-button {
+    background-color: #400040;
+    background: url(img/magnifying.png) no-repeat;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 25px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-top: 6px;
+}
+.search-button:hover {
+    background: url(img/magnifying-hov.png) no-repeat;
+}
+.search-field {
+    font-size: 16px;
+    border-radius: 6px;
+    margin-top: 4px;
+    vertical-align: top;
+    height: 25px;
+    padding-left: 5px;
+}
+.search-form {
+    padding-top: -10px;
+}
+.clear-button {
+    display: none;
 }
 .note {
     background-color: #400040;
@@ -45,7 +78,12 @@ header {
     padding-bottom: 10px;
     padding-right: 15px;
     border-radius: 10px;
+    transition: 0.4s
 }
+/*.note:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 0.4em 0.4em 5px rgba(0,0,0,0.5);
+} */
 .tool-note {
     display: flex;
     justify-content: space-between;
@@ -152,7 +190,7 @@ header {
 }
 .modal-header {
     width: 100%;
-    background-color: #7B0DFF;
+    background-color: #14ccb0;
     height: 40px;
     border-radius: 20px 20px 0px 0px;
     padding-top: 20px;
@@ -248,7 +286,7 @@ header {
     font-size: 22px;
     padding-left: 20px;
     padding-right: 20px;
-    padding-top: 10px;
+    padding-top: 8px;
     padding-bottom: 10px;
     border-radius: 10px;
     margin-left: 40px;
@@ -284,6 +322,23 @@ header {
     margin-bottom: 20px;
     animation: shake-little 100ms ease-in-out infinite;
     
+}
+.no-found-window {
+    width: 500px;
+    height: 320px;
+    position: fixed;
+    z-index: 1;
+    background-color: #8C2A8C;
+    border-radius: 20px;
+    box-shadow: 0.7em 0.7em 10px rgba(0,0,0,0.5);
+    display: none;
+}
+.no-found-title {
+    font-size: 98px;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 @keyframes shake-little{
     2%{transform:translate(1px, 0px) rotate(0.5deg)}

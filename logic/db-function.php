@@ -56,4 +56,12 @@ function kill($link, $data) {
     $query = "DELETE FROM note WHERE id = $id";
     mysqli_query($link, $query);
 }
+function search_name($link, $commad) {
+    $name = $commad[search_name];
+    $query = "SELECT * FROM note WHERE name='$name'";
+    $result = mysqli_query($link, $query);
+    $done_result = mysqli_fetch_all($result);
+    $json_result = json_encode($done_result);
+    print_r($json_result);
+}
 ?>

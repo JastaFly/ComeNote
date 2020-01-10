@@ -51,3 +51,9 @@ let kill_window = function(elem) {
     let main_wrap = document.getElementsByClassName('main-wrap');
     main_wrap[0].style.filter = 'blur(3px)';
 }
+let clear_note = function(elem) {
+    let notes = document.getElementsByClassName('note');
+    $(notes).remove();
+    elem.style.display = 'none';
+    load();
+}

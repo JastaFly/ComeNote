@@ -141,7 +141,7 @@ let kill_note = function() {
     url: "logic/command-process.php",                               
     type: "POST", 
     data: mod_data,  
-    dataType: "html",
+    dataType: "json",
     success: function(res) {
         let windiw = document.getElementsByClassName('kill-window');
         $(windiw[0]).slideToggle(400);
@@ -157,3 +157,61 @@ let kill_note = function() {
     }
 });
 }
+let search = function() {
+    let field = document.getElementsByClassName('search-field');
+    let name = field[0].value;
+    let data = {'search_name' : name}
+     let mod_data = JSON.stringify(data);
+    $.ajax({                                   
+    url: "logic/command-process.php",                               
+    type: "POST", 
+    data: mod_data,  
+    dataType: "json",
+    success: function(res) {
+        let notes = document.getElementsByClassName('note');
+        console.log(res);
+        if (res.length == 0) {
+            let window = document.getElementsByClassName('no-found-window');
+            $(window[0]).slideToggle(500);
+            let main_wrap = document.getElementsByClassName('main-wrap');
+            let header = document.getElementsByTagName('header');
+            let cover = document.getElementsByClassName('cover');
+            $(cover[0]).slideToggle(400);
+            main_wrap[0].style.filter = 'blur(3px)';
+            header[0].style.filter = 'blur(3px)';
+        }
+        else {
+            $(notes).remove();
+            let clear_button = document.getElementsByClassName('clear-button');
+            clear_button[0].style.display = 'block';
+         for (i = 0; i < res.length; i++) {
+            $('#div-list').append('<div class="note" id="note-' + i + '"></div>');
+            $('#note-' + i).append('<div class="tool-note" id="tool-note-' + i + '"></div>');
+            $('#tool-note-' + i).append('<span class="name">' + res[i][1] + '</span>');
+            $('#tool-note-' + i).append('<div class="tool-group" id="tool-group-' + i + '"></div>');
+            $('#tool-group-' + i).append('<span class="date" >' + res[i][3] + '</span>');
+            $('#tool-group-' + i).append('<div class="delete" title="Уничтожить" onclick="kill_window(this)"></div>');
+            if (res[i][4] == 1) {
+                $('#tool-group-' + i).append('<div class="favorite-on" title="Самое то"  onclick="favorite(this)"></div>');
+                }
+            else {
+                $('#tool-group-' + i).append('<div class="favorite-off" title="Так се" onclick="favorite(this)"></div>');
+            }
+             $('#tool-group-' + i).append('<span class="id-value">' + res[i][0] + '</span>');
+            $('#tool-group-' + i).append('<div onclick="edit(this)" class="ok" title="Всё ok"  ></div>');
+            $('#tool-group-' + i).append('<div class="cancel" title="Ну нах!" onclick="cancel(this)"></div>');
+            $('#tool-group-' + i).append('<div class="viev" title="Что там?"></div>');
+            $('#note-' + i).append('<p class="content">' + res[i][2] + '</p>');
+            $('#tool-group-' + i).append('<div class="edit" title="Подправить"></div>');
+            }
+        }
+    }
+});
+}
+$(document).ready(function() {
+  $('.search-field').keydown(function(e) {
+    if(e.keyCode === 13) {
+     search();
+    }
+  });
+});

@@ -16,6 +16,8 @@ if (!empty($_POST)) {
           break;
     case "delete" : kill($link, $dec);
           break;
+    case "search_name" : search_name($link, $dec);
+          break;
     } 
   
 }

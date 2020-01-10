@@ -29,7 +29,7 @@
            </div>
            <img src="img/tick-circle.png" class="ok-tick"  alt="">
             <p class="ok-text" onclick="tick()">Изменения сохранены!</p>
-           </div>
+        </div>
     <div class="kill-window">
            <div class="modal-header">
            <div class="cross" onclick="closer(this)"></div>
@@ -40,15 +40,26 @@
             <span class="delete-button button" onclick="kill_note()">Да!</span>
             <span class="no-delete-button button" onclick="closer(this)">Ниии!</span>
             </div>
+        </div>
+        <div class="no-found-window">
+           <div class="modal-header">
+           <div class="cross" onclick="closer(this)"></div>
            </div>
+           <p class="no-found-title">404</p>
+            <p class="ok-text" onclick="tick()">Ничего не найдено!</p>
+        </div>
     <div class="main-wrap">
        
         <div class="tool-wrap">
             <div class="searh">
-                <form action="">
-                <input type="text" placeholder="Искать по имени">
-                <input type="submit">
-                </form>
+                <input type="text" class="search-field" placeholder="Искать по имени">
+                <input type="button" class="search-button" onclick="search()">
+            </div>
+            <span class="button no-delete-button clear-button" onclick="clear_note(this)">Очистить</span>
+            <div class="purple-button">
+                <span class="white-text"></span>
+                <span class="sort-up"></span>
+                <span class="sort-down"></span>
             </div>
         </div>
         <div id="div-list">
