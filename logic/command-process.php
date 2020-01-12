@@ -18,6 +18,10 @@ if (!empty($_POST)) {
           break;
     case "search_name" : search_name($link, $dec);
           break;
+    case "date_sort" : date_sort($link, $dec);
+          break;
+    case "get_favorite" : get_favorite($link, $dec);
+          break;
     } 
   
 }

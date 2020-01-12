@@ -57,8 +57,36 @@ function kill($link, $data) {
     mysqli_query($link, $query);
 }
 function search_name($link, $commad) {
-    $name = $commad[search_name];
+    $name = strtr($commad[search_name], '_', ' ');
     $query = "SELECT * FROM note WHERE name='$name'";
+    $result = mysqli_query($link, $query);
+    $done_result = mysqli_fetch_all($result);
+    $json_result = json_encode($done_result);
+    print_r($json_result);
+}
+function date_sort($link, $commad) {
+    $order = $commad[date_sort][sort_by];
+    $max = $commad[date_sort][max];
+    if ($order == 1) {
+        $query = "SELECT * FROM note ORDER BY date DESC LIMIT $max";
+    }
+    else if ($order == 0) {
+        $query = "SELECT * FROM note ORDER BY date ASC LIMIT $max";
+    }
+    $result = mysqli_query($link, $query); 
+    $done_result = mysqli_fetch_all($result);
+    $json_result = json_encode($done_result);
+    print_r($json_result);
+}
+function get_favorite($link, $command) {
+    $value = $command[get_favorite];
+    if ($value == 'all') {
+        $query ="SELECT * FROM note WHERE `primary`=1";
+       
+    }
+    else {
+        $query ="SELECT * FROM note WHERE `primary`=1 LIMIT $value";
+    }
     $result = mysqli_query($link, $query);
     $done_result = mysqli_fetch_all($result);
     $json_result = json_encode($done_result);

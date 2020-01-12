@@ -1,11 +1,11 @@
-$(document).ready(function() {
-    $('#div-list').on('click', '.viev', function() {
+$(document).ready(function () {
+    $('#div-list').on('click', '.viev', function () {
         let elem_neib = this.parentNode.parentNode.nextElementSibling;
         $(elem_neib).slideToggle(400);
     });
 });
-$(document).ready(function() {
-    $('#div-list').on('click', '.edit', function() {
+$(document).ready(function () {
+    $('#div-list').on('click', '.edit', function () {
         let text = this.parentNode.parentNode.nextElementSibling;
         let parent = this.parentNode.children;
         let tool_note = this.parentNode.parentNode.children;
@@ -20,8 +20,8 @@ $(document).ready(function() {
         parent[5].style.display = 'block';
         $(text).slideToggle(400);
     });
-}); 
-let closer = function(elem) {
+});
+let closer = function (elem) {
     let modal_window = elem.parentNode.parentNode;
     console.log(modal_window);
     $(modal_window).slideToggle(500);
@@ -30,9 +30,9 @@ let closer = function(elem) {
     let cover = document.getElementsByClassName('cover');
     $(cover[0]).slideToggle(400);
     main_wrap[0].style.filter = 'blur(0px)';
-    header[0].style.filter = 'blur(0px)'; 
+    header[0].style.filter = 'blur(0px)';
 }
-let kill_window = function(elem) {
+let kill_window = function (elem) {
     let parent = elem.parentNode.children;
     let main_parent = elem.parentNode.parentNode.children;
     let note_id = elem.parentNode.parentNode.parentNode.getAttribute('id');
@@ -51,9 +51,23 @@ let kill_window = function(elem) {
     let main_wrap = document.getElementsByClassName('main-wrap');
     main_wrap[0].style.filter = 'blur(3px)';
 }
-let clear_note = function(elem) {
+let clear_note = function (elem) {
+    let parent = elem.parentNode.children;
     let notes = document.getElementsByClassName('note');
+    let wrap = elem.parentNode;
     $(notes).remove();
     elem.style.display = 'none';
+    parent[0].style.display = 'block';
+    parent[1].style.display = 'flex';
+    parent[2].style.display = 'flex';
+    parent[3].style.display = 'block';
+    wrap.style.justifyContent = 'space-between';
     load();
+}
+let show_filds = function() {
+    let filds = document.getElementsByClassName('new_note_filds');
+    $(filds[0]).slideToggle(400);
+}
+let change_class = function(elem) {
+    
 }
