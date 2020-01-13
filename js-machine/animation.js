@@ -23,12 +23,10 @@ $(document).ready(function () {
 });
 let closer = function (elem) {
     let modal_window = elem.parentNode.parentNode;
-    console.log(modal_window);
     $(modal_window).slideToggle(500);
     let main_wrap = document.getElementsByClassName('main-wrap');
     let header = document.getElementsByTagName('header');
-    let cover = document.getElementsByClassName('cover');
-    $(cover[0]).slideToggle(400);
+    $('.cover').slideToggle(400);
     main_wrap[0].style.filter = 'blur(0px)';
     header[0].style.filter = 'blur(0px)';
 }
@@ -64,10 +62,18 @@ let clear_note = function (elem) {
     wrap.style.justifyContent = 'space-between';
     load();
 }
-let show_filds = function() {
+let show_filds = function () {
     let filds = document.getElementsByClassName('new_note_filds');
     $(filds[0]).slideToggle(400);
 }
-let change_class = function(elem) {
-    
+let change_class = function (elem) {
+    classes = elem.classList;
+    console.log(classes[0]);
+    if (classes[0] == 'favorite-off') {
+        classes.remove('favorite-off');
+        classes.add('favorite-on');
+    } else if (classes[0] == 'favorite-on') {
+        classes.remove('favorite-on');
+        classes.add('favorite-off');
+    }
 }

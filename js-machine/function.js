@@ -1,4 +1,13 @@
 localStorage.setItem('order', 0);
+localStorage.setItem('scrol_load', 200);
+window.addEventListener('scroll', function() {
+ 
+    let scroll = pageYOffset;
+    let scroll_load = localStorage.getItem('scrol_load');
+    if (scroll == scroll_load) {
+         console.log('yaaaahooo');
+        }
+});
 window.onload = function () {
     load();
 }
@@ -34,6 +43,7 @@ let load = function () {
         data: modData,
         dataType: "json",
         success: function (res) {
+            console.log(res);
             render_note(res);
         }
     });
@@ -42,7 +52,6 @@ let edit = function (elem) {
     let parent = elem.parentNode.children;
     let main_parent = elem.parentNode.parentNode.children;
     let paren_group = elem.parentNode.parentNode.parentNode.children;
-    console.log(parent);
     let text_value = paren_group[1].value;
     let title = main_parent[0].value;
     let id = parent[3].innerHTML;
@@ -54,15 +63,16 @@ let edit = function (elem) {
         }
     }
     let mod_data = JSON.stringify(data);
-
     $.ajax({
         url: "logic/command-process.php",
         type: "POST",
         data: mod_data,
         dataType: "json",
         success: function (res) {
-            $(main_parent[0]).replaceWith('<span class="name">' + res[0][1] + '</span>');
-            $(paren_group[1]).replaceWith('<p class="content">' + res[0][2] + '</p>');
+            console.log(res);
+            let notes = document.getElementsByClassName('note');
+            $(notes).remove();
+            load();
             paren_group[1].style.display = 'block';
             parent[1].style.display = 'block';
             parent[2].style.display = 'block';
@@ -71,6 +81,7 @@ let edit = function (elem) {
             parent[6].style.display = 'block';
             parent[7].style.display = 'block';
             $('.modal-window').slideToggle(500);
+            $('.cover').slideToggle(400);
             let main_wrap = document.getElementsByClassName('main-wrap');
             let header = document.getElementsByTagName('header');
             main_wrap[0].style.filter = 'blur(3px)';
@@ -131,7 +142,8 @@ let favorite = function (elem) {
         data: mod_data,
         dataType: "json",
         success: function (res) {
-            if (res[0][0] == 0) {
+            console.log(res);
+            if (res[0][4] == 0) {
                 elem.classList.remove('favorite-on');
                 elem.classList.add('favorite-off');
             } else {
@@ -273,7 +285,30 @@ let only_favorite = function (elem) {
     });
 }
 let add = function(elem) {
-    let title = elem.previousElementSibling.value;
+    let title = elem.previousElementSibling.previousElementSibling.value;
     let text = elem.parentNode.nextElementSibling.value;
-    
+    let favorite_class = elem.previousElementSibling.classList;
+    if (favorite_class == 'favorite-off') {
+        var favorite_val = 0;
+    }
+    else if (favorite_class == 'favorite-on') {
+        var favorite_val = 1;
+    }
+    let data = {
+            add_note: {
+                title : title,
+                text : text,
+                favorite : favorite_val
+            }
+        }
+    let mod_data = JSON.stringify(data);
+    $.ajax({
+        url: "logic/command-process.php",
+        type: "POST",
+        data: mod_data,
+        dataType: "html",
+        success: function (res) {
+           console.log(res);
+        }
+    });  
 }

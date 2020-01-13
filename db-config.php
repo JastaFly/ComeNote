@@ -10,7 +10,7 @@ $link = mysqli_connect($host, $user, $password, $database)
 try {  
   
   # MySQL через PDO_MYSQL  
-  $DBH = new PDO("mysql:host=$host;dbname=$database", $user, $password);  
+  $pdo = new PDO("mysql:host=$host;dbname=$database", $user, $password);  
   
 }  
 catch(PDOException $e) {  
