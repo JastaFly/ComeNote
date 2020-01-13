@@ -1,23 +1,81 @@
-localStorage.setItem('order', 0);
-localStorage.setItem('scrol_load', 200);
-window.addEventListener('scroll', function() {
- 
-    let scroll = pageYOffset;
-    let scroll_load = localStorage.getItem('scrol_load');
-    if (scroll == scroll_load) {
-         console.log('yaaaahooo');
-        }
+localStorage.setItem('order', 0); 
+localStorage.setItem('offset', 10);
+localStorage.setItem('max', 20);
+let ajax_load = 0;
+window.addEventListener('scroll', function () { // загрузка при прокрутке
+    let bottom = $(window).scrollTop() + $(window).height();
+    let window_height = $(document).height();
+    let load_scroll = parseInt(localStorage.getItem('scroll_load'), 10);
+    console.log(ajax_load);
+    if (bottom >= window_height && ajax_load == 0) {
+        let scroll_val = load_scroll + 200;
+        let max = parseInt(localStorage.getItem('max'), 10);
+        var offset = parseInt(localStorage.getItem('offset'), 10);
+        let data = {
+            'load': offset + '-' + max
+        };
+
+        let modData = JSON.stringify(data);
+        ajax_load = 1;
+        $.ajax({
+            url: "logic/command-process.php",
+            type: "POST",
+            data: modData,
+            dataType: "json",
+            success: function (res) {
+                if (res.length != 0) {
+                    console.log('1');
+                    for (i = 0; i < res.length; i++) {
+                        let count = offset + i;
+                        let dirt_date = res[i][3];
+                        let date = dirt_date.match(/^\d{2,4}([-])\d{2,4}([-])\d{2,4}/);
+                        let time = dirt_date.match(/\d{1,2}:\d{1,2}:\d{1,2}/);
+                        let year = dirt_date.match(/^\d{2,4}/);
+                        let dirt_m_d = dirt_date.match(/-\d{2,4}-\d{2,4}/);
+                        let m_d = dirt_m_d[0].replace('-', '');
+                        $('#div-list').append('<div class="note" id="note-' + count + '"></div>');
+                        $('#note-' + count).append('<div class="tool-note" id="tool-note-' + count + '"></div>');
+                        $('#tool-note-' + count).append('<span class="name">' + res[i][1] + '</span>');
+                        $('#tool-note-' + count).append('<div class="tool-group" id="tool-group-' + count + '"></div>');
+                        $('#tool-group-' + count).append('<span class="date" >' + m_d + '-' + year + '<span class="time"> ' + time[0] + '</span></span>');
+                        $('#tool-group-' + count).append('<div class="delete" title="Уничтожить" onclick="kill_window(this)"></div>');
+                        if (res[i][4] == 1) {
+                            $('#tool-group-' + count).append('<div class="favorite-on" title="Самое то"  onclick="favorite(this)"></div>');
+                        } else {
+                            $('#tool-group-' + count).append('<div class="favorite-off" title="Так се" onclick="favorite(this)"></div>');
+                        }
+                        $('#tool-group-' + count).append('<span class="id-value">' + res[i][0] + '</span>');
+                        $('#tool-group-' + count).append('<div onclick="edit(this)" class="ok" title="Всё ok"  ></div>');
+                        $('#tool-group-' + count).append('<div class="cancel" title="Ну нах!" onclick="cancel(this)"></div>');
+                        $('#tool-group-' + count).append('<div class="viev" title="Что там?"></div>');
+                        $('#note-' + count).append('<p class="content">' + res[i][2] + '</p>');
+                        $('#tool-group-' + count).append('<div class="edit" title="Подправить"></div>');
+                        ajax_load = 0;
+                        localStorage.setItem('max', max + 10);
+                        localStorage.setItem('offset', offset + 10);
+                    }
+                }
+            }
+        });
+    }
 });
 window.onload = function () {
-    load();
+    load(); // загружает первые 10 заметок
 }
-let render_note = function (res) {
+let render_note = function (res) { // отображает записи
+
     for (i = 0; i < res.length; i++) {
+        let dirt_date = res[i][3];
+        let date = dirt_date.match(/^\d{2,4}([-])\d{2,4}([-])\d{2,4}/);
+        let time = dirt_date.match(/\d{1,2}:\d{1,2}:\d{1,2}/);
+        let year = dirt_date.match(/^\d{2,4}/);
+        let dirt_m_d = dirt_date.match(/-\d{2,4}-\d{2,4}/);
+        let m_d = dirt_m_d[0].replace('-', '');
         $('#div-list').append('<div class="note" id="note-' + i + '"></div>');
         $('#note-' + i).append('<div class="tool-note" id="tool-note-' + i + '"></div>');
         $('#tool-note-' + i).append('<span class="name">' + res[i][1] + '</span>');
         $('#tool-note-' + i).append('<div class="tool-group" id="tool-group-' + i + '"></div>');
-        $('#tool-group-' + i).append('<span class="date" >' + res[i][3] + '</span>');
+        $('#tool-group-' + i).append('<span class="date" >' + m_d + '-' + year + '<span class="time"> ' + time[0] + '</span></span>');
         $('#tool-group-' + i).append('<div class="delete" title="Уничтожить" onclick="kill_window(this)"></div>');
         if (res[i][4] == 1) {
             $('#tool-group-' + i).append('<div class="favorite-on" title="Самое то"  onclick="favorite(this)"></div>');
@@ -48,7 +106,7 @@ let load = function () {
         }
     });
 }
-let edit = function (elem) {
+let edit = function (elem) { // изменение записи
     let parent = elem.parentNode.children;
     let main_parent = elem.parentNode.parentNode.children;
     let paren_group = elem.parentNode.parentNode.parentNode.children;
@@ -73,6 +131,9 @@ let edit = function (elem) {
             let notes = document.getElementsByClassName('note');
             $(notes).remove();
             load();
+            ajax_load = 0;
+            localStorage.setItem('max', 10);
+            localStorage.setItem('offset', 10);
             paren_group[1].style.display = 'block';
             parent[1].style.display = 'block';
             parent[2].style.display = 'block';
@@ -80,6 +141,9 @@ let edit = function (elem) {
             parent[5].style.display = 'none';
             parent[6].style.display = 'block';
             parent[7].style.display = 'block';
+            let modal_window = document.getElementsByClassName('modal-window');
+            let window_child = modal_window[0].children;
+            window_child[2].innerHTML = "Изменения сохранены";
             $('.modal-window').slideToggle(500);
             $('.cover').slideToggle(400);
             let main_wrap = document.getElementsByClassName('main-wrap');
@@ -89,7 +153,7 @@ let edit = function (elem) {
         }
     });
 }
-let cancel = function (elem) {
+let cancel = function (elem) { // выход из записи без сохранения изменений
     let parent = elem.parentNode.children;
     let main_parent = elem.parentNode.parentNode.children;
     let paren_group = elem.parentNode.parentNode.parentNode.children;
@@ -116,7 +180,7 @@ let cancel = function (elem) {
         }
     });
 }
-let favorite = function (elem) {
+let favorite = function (elem) { // изменение флага избранной записи
     let class_css = elem.classList;
     let parent = elem.parentNode.children;
     let id = parent[3].innerHTML;
@@ -154,7 +218,7 @@ let favorite = function (elem) {
     });
 
 }
-let kill_note = function () {
+let kill_note = function () { // удаление записи
     let id = localStorage.getItem('kill_id');
     let data = {
         'delete': id
@@ -180,7 +244,7 @@ let kill_note = function () {
         }
     });
 }
-let search = function (elem) {
+let search = function (elem) { // поиск запииси по имени
     let field = document.getElementsByClassName('search-field');
     let parent = elem.parentNode.parentNode.children;
     let name = field[0].value;
@@ -217,7 +281,7 @@ let search = function (elem) {
         }
     });
 }
-$(document).ready(function () {
+$(document).ready(function () { // ловит нажатие клавиши Enter в поле поиска по имени
     $('.search-field').keydown(function (e) {
         if (e.keyCode === 13) {
             search(this);
@@ -255,7 +319,7 @@ let date_sort = function (elem) {
         }
     });
 }
-let only_favorite = function (elem) {
+let only_favorite = function (elem) { // загружает только избранные записи
     let parent = elem.parentNode.children;
     let wrap = elem.parentNode;
     console.log(parent);
@@ -281,26 +345,28 @@ let only_favorite = function (elem) {
             parent[3].style.display = 'none';
             wrap.style.justifyContent = 'flex-end';
             render_note(res);
+            ajax_load = 1;
+            localStorage.setItem('max', 10);
+            localStorage.setItem('offset', 10);
         }
     });
 }
-let add = function(elem) {
+let add = function (elem) { // добавляет новую заметку
     let title = elem.previousElementSibling.previousElementSibling.value;
     let text = elem.parentNode.nextElementSibling.value;
     let favorite_class = elem.previousElementSibling.classList;
     if (favorite_class == 'favorite-off') {
         var favorite_val = 0;
-    }
-    else if (favorite_class == 'favorite-on') {
+    } else if (favorite_class == 'favorite-on') {
         var favorite_val = 1;
     }
     let data = {
-            add_note: {
-                title : title,
-                text : text,
-                favorite : favorite_val
-            }
+        add_note: {
+            title: title,
+            text: text,
+            favorite: favorite_val
         }
+    }
     let mod_data = JSON.stringify(data);
     $.ajax({
         url: "logic/command-process.php",
@@ -308,7 +374,22 @@ let add = function(elem) {
         data: mod_data,
         dataType: "html",
         success: function (res) {
-           console.log(res);
+            let modal_window = document.getElementsByClassName('modal-window');
+            let window_child = modal_window[0].children;
+            window_child[2].innerHTML = "Заметка сохранена"
+            $('.modal-window').slideToggle(500);
+            $('.cover').slideToggle(500);
+            $('.new_note_filds').slideToggle(500);
+            console.log(window_child);
+            let header = document.getElementsByTagName('header');
+            let main_wrap = document.getElementsByClassName('main-wrap');
+            header[0].style.filter = 'blur(3px)';
+            main_wrap[0].style.filter = 'blur(3px)';
+            $('.note').remove();
+            ajax_load = 0;
+            localStorage.setItem('max', 10);
+            localStorage.setItem('offset', 10);
+            load();
         }
-    });  
+    });
 }

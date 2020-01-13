@@ -1,7 +1,7 @@
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/db-config.php') ;
 
-function get_nodes($pdo,$commad) {
+function get_nodes($pdo,$commad) { // получает данные в указанном диапазоне
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
     $range_start = '/[0-9]+-/';
     preg_match_all($range_start, $commad['load'], $matches_start);
@@ -21,7 +21,7 @@ function get_nodes($pdo,$commad) {
     $json_result = json_encode($result);
     print_r($json_result);
 }
-function update_node($pdo, $data) {
+function update_node($pdo, $data) { // обновление записи
     date_default_timezone_set("Europe/Moscow");
     $date_msk = date('Y-m-d H:i:s');
     $id = $data['edit']['id'];
@@ -46,7 +46,7 @@ function update_node($pdo, $data) {
     $json_result = json_encode($result);
     echo $json_result;
 }
-function get_one($pdo, $commad) {
+function get_one($pdo, $commad) { // получение записи по идентификатору
     $id = $commad['load_one'];
     $query ="SELECT * FROM note WHERE id=:id";
     $prepar = $pdo->prepare($query);
@@ -58,7 +58,7 @@ function get_one($pdo, $commad) {
     $json_result = json_encode($result);
     print_r($json_result) ;
 }
-function favorite($pdo, $favorite) {
+function favorite($pdo, $favorite) { // изменение флага избранной записи
     $id = $favorite['favorite']['id'];
     $value = $favorite['favorite']['value'];
     $query ="UPDATE `note` SET `favorite` = :primary WHERE `note`.`id` = :id";
@@ -78,7 +78,7 @@ function favorite($pdo, $favorite) {
     $json_result = json_encode($result);
     print_r($json_result);
 }
-function kill($pdo, $data) {
+function kill($pdo, $data) { // удаление записи
     $id = $data[delete];
     echo $id;
     $query ="DELETE FROM note WHERE id = :id";
@@ -88,7 +88,7 @@ function kill($pdo, $data) {
     ];
     $prepar->execute($param);
 }
-function search_name($pdo, $commad) {
+function search_name($pdo, $commad) { // поиск записи по имени
     $name = strtr($commad['search_name'], '_', ' ');
     $query ="SELECT * FROM note WHERE name=:name";
     $prepar = $pdo->prepare($query);
@@ -100,7 +100,7 @@ function search_name($pdo, $commad) {
     $json_result = json_encode($result);
     print_r($json_result);
 }
-function date_sort($pdo, $commad) {
+function date_sort($pdo, $commad) { //сортировка по дате
     $order = $commad['date_sort']['sort_by'];
     $max = $commad['date_sort'][max];
     if ($order == 1) {
@@ -116,10 +116,10 @@ function date_sort($pdo, $commad) {
     $json_result = json_encode($result);
     print_r($json_result);
 }
-function get_favorite($pdo, $command) {
+function get_favorite($pdo, $command) { // получить только избарные записи. Либо все сразу либо с ограничением
     $value = $command[get_favorite];
     if ($value == 'all') {
-        $query ="SELECT * FROM note WHERE `favorite`=1";
+        $query ="SELECT * FROM note WHERE `favorite`=1 ORDER BY date DESC";
         $prepar = $pdo->prepare($query);
         $prepar->execute();
         $result = $prepar->fetchAll(PDO::FETCH_NUM);
@@ -127,7 +127,7 @@ function get_favorite($pdo, $command) {
         print_r($json_result);
     }
     else {
-        $query ="SELECT * FROM note WHERE `primary`=1 LIMIT :limit";
+        $query ="SELECT * FROM note WHERE `primary`=1 ORDER BY date DESC LIMIT :limit";
         $prepar = $pdo->prepare($query);
         $prepar->bindParam(':limit', $value, PDO::PARAM_INT);
         $prepar->execute();
@@ -136,7 +136,7 @@ function get_favorite($pdo, $command) {
         print_r($json_result);
     }
 }
-function add_note($pdo, $command) {
+function add_note($pdo, $command) { // добавление новой записи
     $clear_title = strtr($command['add_note']['title'], '_', ' ');
     $clear_text = strtr($command['add_note']['text'], '_', ' ');
     $query ="INSERT INTO note (`name`, `description`, `date`, `favorite`) VALUES (:name, :description, NOW(), :favorite)";
@@ -146,12 +146,7 @@ function add_note($pdo, $command) {
               ':description' => $clear_text,   
               ':favorite' => $command['add_note']['favorite']
     ];
-    /*
+  
     $prepar->execute($param);
-    $get_note ="SELECT * FROM note ORDER BY date DESC LIMIT 1";
-    $prepar_get = $pdo->prepare($get_note);
-    $prepar_get->execute();
-    $result = $prepar_get->fetchAll(PDO::FETCH_NUM);
-    $json_result = json_encode($result); */
 }
 ?>

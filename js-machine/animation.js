@@ -11,7 +11,7 @@ $(document).ready(function () {
         let tool_note = this.parentNode.parentNode.children;
         console.log(parent);
         $(text).replaceWith('<textarea class="node-fild ">' + $(text).text() + '</textarea>');
-        $(tool_note[0]).replaceWith('<input type="text" class="node-title" size="130" value="' + $(tool_note[0]).text() + '">');
+        $(tool_note[0]).replaceWith('<input type="text" class="node-title" size="120" value="' + $(tool_note[0]).text() + '">');
         this.style.display = 'none';
         parent[1].style.display = 'none';
         parent[2].style.display = 'none';
@@ -61,6 +61,9 @@ let clear_note = function (elem) {
     parent[3].style.display = 'block';
     wrap.style.justifyContent = 'space-between';
     load();
+    ajax_load = 0;
+    localStorage.setItem('max', 10);
+    localStorage.setItem('offset', 10);
 }
 let show_filds = function () {
     let filds = document.getElementsByClassName('new_note_filds');
